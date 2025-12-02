@@ -4,27 +4,20 @@ Todas las excepciones personalizadas con mensajes de error específicos.
 """
 
 
+"""Excepción base para todos los errores de tarjetas de eventos"""
 class EventCardError(Exception):
-    """Excepción base para todos los errores de tarjetas de eventos"""
     pass
 
 
+"""La tarjeta no está registrada para este evento"""
 class CardNotRegisteredError(EventCardError):
-    """La tarjeta no está registrada para este evento"""
     def __init__(self, card_id: str):
         super().__init__(f"ERROR: Tarjeta {card_id} no registrada para este evento")
         self.card_id = card_id
 
 
-class CardBlockedError(EventCardError):
-    """La tarjeta está bloqueada y no puede ser usada"""
-    def __init__(self, card_id: str):
-        super().__init__(f"ERROR: Tarjeta {card_id} bloqueada")
-        self.card_id = card_id
-
-
+"""La tarjeta tiene saldo insuficiente para la transacción"""
 class InsufficientBalanceError(EventCardError):
-    """La tarjeta tiene saldo insuficiente para la transacción"""
     def __init__(self, card_id: str, balance: float, amount: float):
         super().__init__(
             f"ERROR: Saldo insuficiente. La tarjeta {card_id} tiene ${balance:.2f}, "
@@ -35,43 +28,28 @@ class InsufficientBalanceError(EventCardError):
         self.amount = amount
 
 
-class InvalidCardError(EventCardError):
-    """El ID de tarjeta es inválido"""
-    def __init__(self, card_id: str):
-        super().__init__(f"ERROR: Tarjeta inválida {card_id}")
-        self.card_id = card_id
-
-
+"""La conexión al sistema ha fallado"""
 class ConnectionFailureError(EventCardError):
-    """La conexión al sistema ha fallado"""
     def __init__(self):
         super().__init__("ERROR: Fallo de conexión")
 
 
-class OperationNotPermittedError(EventCardError):
-    """La operación no está permitida"""
-    def __init__(self, operation: str, actor: str):
-        super().__init__(f"ERROR: Operación no permitida - {actor} no puede {operation}")
-        self.operation = operation
-        self.actor = actor
-
-
+"""El usuario no existe"""
 class UserNotFoundError(EventCardError):
-    """El usuario no existe"""
     def __init__(self, user_id: str):
         super().__init__(f"ERROR: Usuario {user_id} no encontrado")
         self.user_id = user_id
 
 
+"""El ID de tarjeta ya existe en el sistema"""
 class CardAlreadyExistsError(EventCardError):
-    """El ID de tarjeta ya existe en el sistema"""
     def __init__(self, card_id: str):
         super().__init__(f"ERROR: La tarjeta {card_id} ya existe")
         self.card_id = card_id
 
 
+"""El monto es inválido (negativo o cero)"""
 class InvalidAmountError(EventCardError):
-    """El monto es inválido (negativo o cero)"""
     def __init__(self, amount: float):
         super().__init__(f"ERROR: Monto inválido ${amount:.2f}")
         self.amount = amount

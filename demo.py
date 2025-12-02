@@ -7,7 +7,6 @@ from organizer import EventOrganizer
 from bank_terminal import BankTerminal
 from payment_terminal import PaymentTerminal
 from errors import (
-    CardBlockedError,
     InsufficientBalanceError,
     CardNotRegisteredError
 )
@@ -42,10 +41,9 @@ def main():
     print(f"   ✓ Usuario creado: {user1['name']} (ID: {user1['user_id']})")
     
     # Emitir tarjeta con saldo inicial
-    print("\n2. Emitiendo tarjeta (ya activada)...")
+    print("\n2. Emitiendo tarjeta...")
     card1 = organizer.issue_card(card_id="CARD001", user_id="USER001", initial_balance=0.0)
     print(f"   ✓ ID de Tarjeta: {card1['card_id']}")
-    print(f"   ✓ Estado: {card1['status']}")
     print(f"   ✓ Saldo inicial: ${card1['balance']:.2f}")
     print(f"   ✓ ID de Usuario: {card1['user_id']}")
     
@@ -88,35 +86,9 @@ def main():
             print(f"       Terminal: {txn['terminal_id']}")
     
     # ========================================
-    # ESCENARIO 2: Tarjeta Perdida (Bloquear Tarjeta)
+    # ESCENARIO 2: Saldo Insuficiente
     # ========================================
-    print_section("ESCENARIO 2: Tarjeta Perdida - Bloquear Tarjeta")
-    
-    # Crear segundo usuario y tarjeta
-    print("1. Creando otro usuario con una tarjeta...")
-    user2 = organizer.create_user(user_id="USER002", name="Bob Smith")
-    card2 = organizer.issue_card(card_id="CARD002", user_id="USER002", initial_balance=0.0)
-    print(f"   ✓ Tarjeta {card2['card_id']} emitida con ${card2['balance']:.2f}")
-    
-    # Usuario reporta tarjeta perdida
-    print("\n2. Usuario reporta tarjeta perdida, organizador la bloquea...")
-    blocked_card = organizer.block_card(card_id="CARD002", reason="Usuario reportó pérdida")
-    print(f"   ✓ Tarjeta {blocked_card['card_id']} bloqueada")
-    print(f"   ✓ Estado: {blocked_card['status']}")
-    print(f"   ✓ Razón: {blocked_card['reason']}")
-    
-    # Intentar usar tarjeta bloqueada
-    print("\n3. Alguien intenta usar la tarjeta bloqueada...")
-    try:
-        payment = food_terminal.process_payment(card_id="CARD002", amount=10.00)
-    except CardBlockedError as e:
-        print(f"   ✗ {str(e)}")
-        print("   ✓ ¡Pago denegado correctamente!")
-    
-    # ========================================
-    # ESCENARIO 3: Saldo Insuficiente
-    # ========================================
-    print_section("ESCENARIO 3: Saldo Insuficiente")
+    print_section("ESCENARIO 2: Saldo Insuficiente")
     
     print("1. Usuario intenta pagar más que su saldo...")
     balance_info = bank_terminal.check_balance("CARD001")
@@ -129,9 +101,9 @@ def main():
         print("   ✓ ¡Pago denegado correctamente!")
     
     # ========================================
-    # ESCENARIO 4: Tarjeta Inválida
+    # ESCENARIO 3: Tarjeta Inválida
     # ========================================
-    print_section("ESCENARIO 4: Tarjeta Inválida")
+    print_section("ESCENARIO 3: Tarjeta Inválida")
     
     print("1. Alguien intenta usar una tarjeta no registrada para este evento...")
     try:

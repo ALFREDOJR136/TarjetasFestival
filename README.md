@@ -14,15 +14,12 @@ Este sistema está diseñado para eventos cerrados donde:
 ## 👥 Actores del Sistema
 
 ### Organizador del Evento
-- ✅ Emitir nuevas tarjetas (ya activadas)
-- ✅ Activar tarjetas
-- ✅ Bloquear tarjetas (si se pierden/roban)
+- ✅ Emitir nuevas tarjetas
 - ✅ Recargar tarjetas (añadir fondos)
 
 ### Terminales Bancarios
 - ✅ Mostrar saldo actual de la tarjeta
 - ✅ Mostrar historial completo de transacciones
-- ✅ Ver lista de tarjetas válidas del evento
 
 ### Usuarios
 - ✅ Recibir tarjetas del organizador
@@ -31,7 +28,6 @@ Este sistema está diseñado para eventos cerrados donde:
 
 **No pueden:**
 - ❌ Recargar sus propias tarjetas
-- ❌ Bloquear sus propias tarjetas
 - ❌ Realizar operaciones financieras excepto pagos
 
 ## 🚀 Cómo ejecutar la demo
@@ -40,11 +36,10 @@ Este sistema está diseñado para eventos cerrados donde:
 python demo.py
 ```
 
-Esto ejecutará 4 escenarios de demostración:
+Esto ejecutará 3 escenarios de demostración:
 1. **Ciclo de vida normal de la tarjeta** - Crear usuario, emitir tarjeta, recargar, pagar
-2. **Tarjeta perdida (Bloqueo)** - Bloquear tarjeta y denegar pagos
-3. **Saldo insuficiente** - Intentar pagar más del saldo disponible
-4. **Tarjeta inválida** - Intentar usar una tarjeta no registrada
+2. **Saldo insuficiente** - Intentar pagar más del saldo disponible
+3. **Tarjeta inválida** - Intentar usar una tarjeta no registrada
 
 ## 📁 Archivos del Proyecto
 
@@ -60,9 +55,8 @@ Esto ejecutará 4 escenarios de demostración:
 1. **No se requiere PIN** - Si roban una tarjeta, se pierden los fondos
 2. **No reembolsable** - Todo el dinero añadido a las tarjetas es permanente
 3. **Solo para el evento** - Las tarjetas expiran al final del evento; el saldo restante se pierde
-4. **Operaciones solo del organizador** - Solo el organizador puede emitir, bloquear, activar y recargar tarjetas
+4. **Operaciones solo del organizador** - Solo el organizador puede emitir y recargar tarjetas
 5. **Fallos de conexión** - Los pagos se deniegan si el terminal pierde conexión
-6. **Tarjetas bloqueadas** - Producen error explícito en intentos de pago
 
 ## 💡 Ejemplo de uso básico
 
